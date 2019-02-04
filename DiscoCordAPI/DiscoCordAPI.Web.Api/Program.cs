@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DiscoCordAPI
+namespace DiscoCordAPI.Web.Api
 {
     public class Program
     {
