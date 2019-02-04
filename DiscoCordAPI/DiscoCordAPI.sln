@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoCordAPI.Web.Api", "DiscoCordAPI.Web.Api\DiscoCordAPI.Web.Api.csproj", "{75F40347-5F17-4E5B-8989-700BED7883DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C2A781E7-7944-4290-B48B-88BBE978F8E5} = {C2A781E7-7944-4290-B48B-88BBE978F8E5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoCordAPI.Models", "DiscoCordAPI.Models\DiscoCordAPI.Models.csproj", "{C2A781E7-7944-4290-B48B-88BBE978F8E5}"
 EndProject
