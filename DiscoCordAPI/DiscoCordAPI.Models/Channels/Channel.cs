@@ -7,18 +7,8 @@ namespace DiscoCordAPI.Models.Channels
 {
     public class Channel
     {
-        public int Id { get; private set; }
-        [Required]
-        [MaxLength(50)]
-        public string Name { get; set; }
-
-        [Required]
-        public Server Server { get; set; }
-        public virtual List<Message> Messages { get; set; } = new List<Message>();
-
-        public Channel(int id, Server server, string name)
+        public Channel(Server server, string name)
         {
-            Id = id;
             Server = server;
             Name = name;
         }
@@ -26,5 +16,13 @@ namespace DiscoCordAPI.Models.Channels
         public Channel()
         {
         }
+
+        public int Id { get; private set; }
+
+        [Required] [MaxLength(50)] public string Name { get; set; }
+
+        [Required] public Server Server { get; set; }
+
+        public virtual List<Message> Messages { get; set; } = new List<Message>();
     }
 }

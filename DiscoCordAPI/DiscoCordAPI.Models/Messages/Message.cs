@@ -7,20 +7,8 @@ namespace DiscoCordAPI.Models.Messages
 {
     public class Message
     {
-        public int Id { get; private set; }
-        [Required]
-        public string Content { get; set; }
-        [Required]
-        public DateTime Date { get; private set; }
-
-        [Required]
-        public User Author { get; set; }
-        [Required]
-        public Channel Channel { get; set; }
-
-        public Message(int id, Channel channel, User author, string content)
+        public Message(Channel channel, User author, string content)
         {
-            Id = id;
             Author = author;
             Channel = channel;
             Content = content;
@@ -30,5 +18,15 @@ namespace DiscoCordAPI.Models.Messages
         public Message()
         {
         }
+
+        public int Id { get; private set; }
+
+        [Required] public string Content { get; set; }
+
+        [Required] public DateTime Date { get; }
+
+        [Required] public User Author { get; set; }
+
+        [Required] public Channel Channel { get; set; }
     }
 }
