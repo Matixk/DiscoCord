@@ -9,19 +9,6 @@ namespace DiscoCordAPI.Models.Context.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .Property(u => u.Name)
-                .IsRequired()
-                .HasMaxLength(25);
-
-            builder
-                .Property(u => u.PasswordHash)
-                .IsRequired();
-
-            builder
-                .Property(u => u.PasswordSalt)
-                .IsRequired();
-
-            builder
                 .HasMany(u => u.OwnedServers)
                 .WithOne(s => s.Owner)
                 .OnDelete(DeleteBehavior.Cascade);

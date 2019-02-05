@@ -9,15 +9,6 @@ namespace DiscoCordAPI.Models.Context.Configurations
         public void Configure(EntityTypeBuilder<Channel> builder)
         {
             builder
-                .Property(c => c.Messages)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder
-                .Property(c => c.Server)
-                .IsRequired();
-
-            builder
                 .HasOne(c => c.Server)
                 .WithMany(s => s.Channels)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -9,19 +9,6 @@ namespace DiscoCordAPI.Models.Context.Configurations
         public void Configure(EntityTypeBuilder<Server> builder)
         {
             builder
-                .Property(s => s.Owner)
-                .IsRequired();
-
-            builder
-                .Property(s => s.Name)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder
-                .Property(s => s.IsPrivate)
-                .IsRequired();
-
-            builder
                 .HasOne(s => s.Owner)
                 .WithMany(u => u.OwnedServers)
                 .OnDelete(DeleteBehavior.Restrict);

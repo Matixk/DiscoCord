@@ -9,22 +9,6 @@ namespace DiscoCordAPI.Models.Context.Configurations
         public void Configure(EntityTypeBuilder<Message> builder)
         {
             builder
-                .Property(m => m.Content)
-                .IsRequired();
-
-            builder
-                .Property(m => m.Date)
-                .IsRequired();
-
-            builder
-                .Property(m => m.Author)
-                .IsRequired();
-
-            builder
-                .Property(m => m.Channel)
-                .IsRequired();
-
-            builder
                 .HasOne(m => m.Author)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
