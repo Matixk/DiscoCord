@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DiscoCordAPI.Models.Servers;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DiscoCordAPI.Web.Api.Repositories
 {
     public interface IRepository<T>
     {
-        Task<ActionResult<IEnumerable<T>>> GetAll();
-        Task<T> Get(long id);
-        Task<IActionResult> Insert(T entity);
-        Task<ActionResult<T>> Update(T entity);
-        Task<ActionResult<T>> Delete(T entity);
+        Task<List<T>> GetAll();
+        Task<T> Get(int id);
+        Task Insert(T entity);
+        Task Update(int id, T entity);
+        Task Delete(int id);
         bool Exists(int id);
 
     }
