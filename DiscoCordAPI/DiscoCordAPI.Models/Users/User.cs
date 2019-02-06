@@ -4,7 +4,7 @@ using DiscoCordAPI.Models.Servers;
 
 namespace DiscoCordAPI.Models.Users
 {
-    public class User
+    public class User : Entity
     {
         public User(string name, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -16,8 +16,6 @@ namespace DiscoCordAPI.Models.Users
         public User()
         {
         }
-
-        public int Id { get; private set; }
 
         [Required] [MaxLength(25)] public string Name { get; set; }
 

@@ -5,7 +5,7 @@ using DiscoCordAPI.Models.Servers;
 
 namespace DiscoCordAPI.Models.Channels
 {
-    public class Channel
+    public class Channel : Entity
     {
         public Channel(Server server, string name)
         {
@@ -16,8 +16,6 @@ namespace DiscoCordAPI.Models.Channels
         public Channel()
         {
         }
-
-        public int Id { get; private set; }
 
         [Required] [MaxLength(50)] public string Name { get; set; }
 

@@ -5,7 +5,7 @@ using DiscoCordAPI.Models.Users;
 
 namespace DiscoCordAPI.Models.Messages
 {
-    public class Message
+    public class Message : Entity
     {
         public Message(Channel channel, User author, string content)
         {
@@ -18,8 +18,6 @@ namespace DiscoCordAPI.Models.Messages
         public Message()
         {
         }
-
-        public int Id { get; private set; }
 
         [Required] public string Content { get; set; }
 
