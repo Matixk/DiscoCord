@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DiscoCordAPI.Web.Api.Repositories
 {
-    interface IMessagesRepository
+    public interface IMessagesRepository
     {
         Task<Message> GetMessageById(int id);
         Task<Message> SendMessage(Message message);
