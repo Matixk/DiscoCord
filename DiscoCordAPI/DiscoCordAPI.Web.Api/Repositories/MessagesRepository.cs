@@ -2,6 +2,7 @@
 using DiscoCordAPI.Models.Messages;
 using DiscoCordAPI.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DiscoCordAPI.Web.Api.Repositories
@@ -24,6 +25,11 @@ namespace DiscoCordAPI.Web.Api.Repositories
         public async Task<Message> GetMessageById(int id)
         {
             return await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
+        }
+
+        public Task<IEnumerable<Message>> GetMessagesForChannel(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<bool> MessageExists(int id)
