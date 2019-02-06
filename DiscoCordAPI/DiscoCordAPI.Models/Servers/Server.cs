@@ -5,7 +5,7 @@ using DiscoCordAPI.Models.Users;
 
 namespace DiscoCordAPI.Models.Servers
 {
-    public class Server
+    public class Server : Entity
     {
         public Server(string name, User owner, bool isPrivate)
         {
@@ -19,8 +19,6 @@ namespace DiscoCordAPI.Models.Servers
         public Server()
         {
         }
-
-        public int Id { get; private set; }
 
         [Required] public User Owner { get; set; }
 
