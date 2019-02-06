@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DiscoCordAPI.Models;
 using DiscoCordAPI.Models.Context;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiscoCordAPI.Web.Api.Repositories
@@ -16,29 +20,34 @@ namespace DiscoCordAPI.Web.Api.Repositories
             entities = context.Set<T>();
         }
 
-        public List<T> GetAll()
+        public Task<ActionResult<IEnumerable<T>>> GetAll()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public T Get(long id)
+        public Task<T> Get(long id)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public void Insert(T entity)
+        public Task<IActionResult> Insert(T entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public void Update(T entity)
+        public Task<ActionResult<T>> Update(T entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public void Delete(T entity)
+        public Task<ActionResult<T>> Delete(T entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public bool Exists(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
