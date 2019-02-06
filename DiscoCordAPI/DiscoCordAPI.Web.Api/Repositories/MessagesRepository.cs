@@ -31,19 +31,17 @@ namespace DiscoCordAPI.Web.Api.Repositories
             return await context.Messages.AnyAsync(msg => msg.Id == id);
         }
 
-        public async Task<Message> SendMessage(Message message)
+        public async void SendMessage(Message message)
         {
             await context.Messages.AddAsync(message);
-            return await context.Messages.FirstOrDefaultAsync(msg => msg == message);
         }
 
-        public async Task<Message> UpdateMessage(int id, string content)
+        public async void UpdateMessage(int id, string content)
         {
             var message = await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
             context.Messages.AsTracking();
             message.Content = content;
             await context.SaveChangesAsync();
-            return await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
         }
 
         public async Task<bool> UserIsTheAuthor(User author, int id)
