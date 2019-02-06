@@ -11,8 +11,6 @@ namespace DiscoCordAPI.Models.Users
             Name = name;
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
-            OwnedServers = new List<Server>();
-            ConnectedServers = new List<Server>();
         }
 
         public User()
@@ -27,7 +25,7 @@ namespace DiscoCordAPI.Models.Users
 
         [Required] public byte[] PasswordSalt { get; set; }
 
-        public virtual List<Server> OwnedServers { get; set; }
-        public virtual List<Server> ConnectedServers { get; set; }
+        public virtual List<Server> OwnedServers { get; set; } = new List<Server>();
+        public virtual List<Server> ConnectedServers { get; set; } = new List<Server>();
     }
 }
