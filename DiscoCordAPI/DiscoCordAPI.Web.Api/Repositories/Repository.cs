@@ -46,7 +46,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task<T> Delete(int id)
         {
             var entity = await entities.FindAsync(id);
             if (entity == null)
@@ -56,6 +56,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
 
             entities.Remove(entity);
             await context.SaveChangesAsync();
+            return entity;
         }
 
         public bool Exists(int id) => entities.Any(e => e.Id == id);
