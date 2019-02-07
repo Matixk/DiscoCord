@@ -42,6 +42,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
                 throw new NotFoundException();
             }
 
+            entities.Update(entity);
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
