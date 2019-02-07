@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DiscoCordAPI.Models.Context;
+﻿using AutoMapper;
 using DiscoCordAPI.Models.Messages;
+using DiscoCordAPI.Models.Users;
+using DiscoCordAPI.Web.Api.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
@@ -14,93 +12,54 @@ namespace DiscoCordAPI.Web.Api.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        private readonly IMapper mapper;
+        private readonly IMessagesRepository repo;
 
-        public MessagesController(ApplicationContext context)
+        public MessagesController(IMapper autoMapper, IMessagesRepository repository)
         {
-            _context = context;
+            mapper = autoMapper;
+            repo = repository;
         }
 
         // GET: api/Messages
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Message>>> GetMessages()
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessagesForChannel(int id)
         {
-            return await _context.Messages.ToListAsync();
+            var messages = await repo.GetMessagesForChannel(id);
+            var messagesToReturn = mapper.Map<IEnumerable<MessageDto>>(messages);
+            return Ok(messagesToReturn);
         }
 
         // GET: api/Messages/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Message>> GetMessage(int id)
         {
-            var message = await _context.Messages.FindAsync(id);
-
-            if (message == null)
-            {
-                return NotFound();
-            }
-
-            return message;
+            var message = await repo.GetMessageById(id);
+            return Ok(message);
         }
 
         // PUT: api/Messages/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMessage(int id, Message message)
+        public async Task<IActionResult> PutMessage(int id, string content)
         {
-            if (id != message.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(message).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MessageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            repo.UpdateMessage(id, content);
+            return Ok("Updated");
         }
 
         // POST: api/Messages
         [HttpPost]
         public async Task<ActionResult<Message>> PostMessage(Message message)
         {
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetMessage", new { id = message.Id }, message);
+            repo.SendMessage(message);
+            return Ok("Sent");
         }
 
         // DELETE: api/Messages/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Message>> DeleteMessage(int id)
+        public async Task<ActionResult<Message>> DeleteMessage(User user, int id)
         {
-            var message = await _context.Messages.FindAsync(id);
-            if (message == null)
-            {
-                return NotFound();
-            }
-
-            _context.Messages.Remove(message);
-            await _context.SaveChangesAsync();
-
-            return message;
-        }
-
-        private bool MessageExists(int id)
-        {
-            return _context.Messages.Any(e => e.Id == id);
+            repo.DeleteMessage(user, id);
+            return Ok("Deleted");
         }
     }
 }
