@@ -21,7 +21,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
         public async void DeleteMessage(User user, int id)
         {
             var message = await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
-            if (await UserIsTheAuthor(user, id))
+            if (await UserIsTheAuthor(user, id) && message != null)
             {
                 context.Messages.Remove(message);
                 await context.SaveChangesAsync();
@@ -58,10 +58,10 @@ namespace DiscoCordAPI.Web.Api.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async void UpdateMessage(int id, string content)
+        public async void UpdateMessage(User user, int id, string content)
         {
             var message = await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
-            if (message != null)
+            if (message != null && await UserIsTheAuthor(user, id))
             {
                 context.Messages.AsTracking();
                 message.Content = content;
