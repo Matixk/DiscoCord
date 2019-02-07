@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DiscoCordAPI.Models.Exceptions;
@@ -12,35 +11,36 @@ namespace DiscoCordAPI.Web.Api.Controllers
     [ApiController]
     public class ServersController : ControllerBase
     {
-        private readonly IRepository<Server> context;
+        private readonly IServersRepository servers;
+        private readonly IUsersRepository users;
 
-        public ServersController(IRepository<Server> context)
+        public ServersController(IServersRepository servers, IUsersRepository users)
         {
-            this.context = context;
+            this.servers = servers;
+            this.users = users;
         }
 
         // GET: api/Servers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Server>>> GetServers()
-        {
-            return await context.GetAll();
-        }
+        public async Task<IActionResult> GetPublicServers() => Ok(servers.GetPublicServers().Result);
 
         // GET: api/Servers/5
         [HttpGet("{id}")]
-        public async Task<Task<Server>> GetServer(int id)
+        public async Task<IActionResult> GetServer(int id)
         {
-            return context.Get(id);
+            //TODO do caller have permission
+            return Ok(servers.GetServerDetails(id).Result);
         }
 
         // PUT: api/Servers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutServer(int id, Server server)
+        public async Task<IActionResult> PutServer(int id, ServerForUpdateDto server)
         {
+            //TODO do caller have permission
             try
             {
-                await context.Update(id, server);
-                return NoContent();
+                await servers.Update(id, server);
+                return Ok();
             }
             catch (ArgumentException)
             {
@@ -54,20 +54,22 @@ namespace DiscoCordAPI.Web.Api.Controllers
 
         // POST: api/Servers
         [HttpPost]
-        public async Task<ActionResult<Server>> PostServer(Server server)
+        public async Task<IActionResult> PostServer(ServerForCreateDto server)
         {
-            await context.Insert(server);
+            await servers.Insert(server, users.GetUser(server.OwnerId));
 
-            return CreatedAtAction("GetServer", new { id = server.Id }, server);
+            return Ok();
         }
 
         // DELETE: api/Servers/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Server>> DeleteServer(int id)
         {
+            //TODO do caller have permission
             try
             {
-                return await context.Delete(id);
+                await servers.Delete(id);
+                return Ok();
             }
             catch (NotFoundException)
             {
@@ -75,9 +77,5 @@ namespace DiscoCordAPI.Web.Api.Controllers
             }
         }
 
-        private bool ServerExists(int id)
-        {
-            return context.Exists(id);
-        }
     }
 }
