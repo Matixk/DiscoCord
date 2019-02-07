@@ -35,14 +35,18 @@ namespace DiscoCordAPI.Web.Api.Controllers
         public async Task<ActionResult<Message>> GetMessage(int id)
         {
             var message = await repo.GetMessageById(id);
+            if (message == null)
+            {
+                return BadRequest();
+            }
             return Ok(message);
         }
 
         // PUT: api/Messages/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMessage(int id, string content)
+        public async Task<IActionResult> PutMessage(User user, int id, string content)
         {
-            repo.UpdateMessage(id, content);
+            repo.UpdateMessage(user, id, content);
             return Ok("Updated");
         }
 
