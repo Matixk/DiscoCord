@@ -30,7 +30,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
 
         public async Task<Message> GetMessageById(int id)
         {
-            return await context.Messages.FindAsync(id);
+            return await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
         }
 
         public async Task<IEnumerable<Message>> GetMessagesForChannel(int id)
@@ -61,9 +61,12 @@ namespace DiscoCordAPI.Web.Api.Repositories
         public async void UpdateMessage(int id, string content)
         {
             var message = await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
-            context.Messages.AsTracking();
-            message.Content = content;
-            await context.SaveChangesAsync();
+            if (message != null)
+            {
+                context.Messages.AsTracking();
+                message.Content = content;
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<bool> UserIsTheAuthor(User author, int id)
