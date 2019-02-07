@@ -18,11 +18,14 @@ namespace DiscoCordAPI.Web.Api.Repositories
             this.context = context;
         }
 
-        public async void DeleteMessage(int id)
+        public async void DeleteMessage(User user, int id)
         {
             var message = await context.Messages.FirstOrDefaultAsync(msg => msg.Id == id);
-            context.Messages.Remove(message);
-            await context.SaveChangesAsync();
+            if (await UserIsTheAuthor(user, id))
+            {
+                context.Messages.Remove(message);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<Message> GetMessageById(int id)
