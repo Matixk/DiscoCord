@@ -22,14 +22,14 @@ namespace DiscoCordAPI.Web.Api.Controllers
 
         // GET: api/Servers
         [HttpGet]
-        public async Task<IActionResult> GetPublicServers() => Ok(servers.GetPublicServers().Result);
+        public async Task<IActionResult> GetPublicServers() => Ok(servers.GetPublicServers());
 
         // GET: api/Servers/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetServer(int id)
         {
             //TODO do caller have permission
-            return Ok(servers.GetServerDetails(id).Result);
+            return Ok(servers.GetServerDetails(id));
         }
 
         // PUT: api/Servers/5
@@ -39,7 +39,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
             //TODO do caller have permission
             try
             {
-                await servers.Update(id, server);
+                servers.Update(id, server);
                 return Ok();
             }
             catch (ArgumentException)
@@ -56,7 +56,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostServer(ServerForCreateDto server)
         {
-            await servers.Insert(server, users.GetUser(server.OwnerId));
+            servers.Insert(server, users.GetUser(server.OwnerId));
 
             return Ok();
         }
@@ -68,7 +68,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
             //TODO do caller have permission
             try
             {
-                await servers.Delete(id);
+                servers.Delete(id);
                 return Ok();
             }
             catch (NotFoundException)

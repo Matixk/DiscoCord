@@ -9,10 +9,10 @@ namespace DiscoCordAPI.Web.Api.Repositories
 {
     public interface IServersRepository
     {
-        Task<IEnumerable<BasicPreviewDto>> GetPublicServers();
-        Task<ServerPreviewDto> GetServerDetails(int id);
-        Task Insert(ServerForCreateDto server, Task<User> get);
-        Task Update(int id, ServerForUpdateDto server);
-        Task Delete(int id);
+        IEnumerable<BasicPreviewDto> GetPublicServers();
+        ServerPreviewDto GetServerDetails(int id);
+        void Insert(ServerForCreateDto server, Task<User> get);
+        void Update(int id, ServerForUpdateDto server);
+        void Delete(int id);
     }
 }

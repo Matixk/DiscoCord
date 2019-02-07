@@ -20,44 +20,44 @@ namespace DiscoCordAPI.Web.Api.Repositories
             this.mapper = mapper;
         }
         
-        public async Task<IEnumerable<BasicPreviewDto>> GetPublicServers()
+        public IEnumerable<BasicPreviewDto> GetPublicServers()
         {
-            var servers = await context.GetAll();
+            var servers = context.GetAll().Result;
         
             var publicServers = servers.Where(s => s.IsPrivate == false);
             return mapper.Map<IEnumerable<BasicPreviewDto>>(publicServers);
         }
 
-        public async Task<ServerPreviewDto> GetServerDetails(int id)
+        public ServerPreviewDto GetServerDetails(int id)
         {
-            var server = await context.Get(id);
+            var server = context.Get(id).Result;
             
             return mapper.Map<ServerPreviewDto>(server);
         }
 
-        public async Task Insert(ServerForCreateDto server, Task<User> user)
+        public void Insert(ServerForCreateDto server, Task<User> user)
         {
             var serverToCreate = new Server(
                 server.Name,
                 user.Result,
                 server.IsPrivate);
 
-            await context.Insert(serverToCreate);
+            context.Insert(serverToCreate);
         }
 
-        public async Task Update(int id, ServerForUpdateDto server)
+        public void Update(int id, ServerForUpdateDto server)
         {
             var serverToUpdate = context.Get(id).Result;
 
             serverToUpdate.Name = server.Name;
             serverToUpdate.IsPrivate = server.IsPrivate;
             
-            await context.Update(id, serverToUpdate);
+            context.Update(id, serverToUpdate);
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            await context.Delete(id);
+            context.Delete(id);
         }
     }
 }
