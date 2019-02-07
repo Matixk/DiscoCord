@@ -10,7 +10,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
         Task Insert(T entity);
         Task Update(int id, T entity);
         Task<T> Delete(int id);
-        bool Exists(int id);
+        Task<bool> Exists(int id);
 
     }
 }
