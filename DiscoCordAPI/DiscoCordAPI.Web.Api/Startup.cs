@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using AutoMapper;
 using DiscoCordAPI.Models.Context;
+using DiscoCordAPI.Models.Servers;
 using DiscoCordAPI.Web.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -29,12 +30,13 @@ namespace DiscoCordAPI.Web.Api
             {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
-            ;
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationContext")));
             services.AddAutoMapper();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IRepository<Server>, Repository<Server>>();
+            services.AddScoped<IServersRepository, ServerRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
