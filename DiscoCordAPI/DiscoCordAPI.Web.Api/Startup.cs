@@ -35,6 +35,7 @@ namespace DiscoCordAPI.Web.Api
             services.AddAutoMapper();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IMessagesRepository, MessagesRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
