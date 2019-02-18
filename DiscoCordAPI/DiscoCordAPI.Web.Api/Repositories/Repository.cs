@@ -20,9 +20,11 @@ namespace DiscoCordAPI.Web.Api.Repositories
             entities = context.Set<T>();
         }
 
+        public DbSet<T> GetDbSet() => entities;
+
         public async Task<List<T>> GetAll() => await entities.ToListAsync();
 
-        public async Task<T> Get(int id) => await entities.FindAsync(id);
+        public async Task<T> Get(int id) => await entities.FirstOrDefaultAsync(e => e.Id == id);
 
         public async Task Insert(T entity)
         {
@@ -37,12 +39,11 @@ namespace DiscoCordAPI.Web.Api.Repositories
                 throw new ArgumentException("Id doesn't match!");
             }
 
-            if (!Exists(id))
+            if (!await Exists(id))
             {
                 throw new NotFoundException();
             }
 
-            entities.Update(entity);
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
@@ -60,6 +61,6 @@ namespace DiscoCordAPI.Web.Api.Repositories
             return entity;
         }
 
-        public bool Exists(int id) => entities.Any(e => e.Id == id);
+        public async Task<bool> Exists(int id) => entities.Any(e => e.Id == id);
     }
 }

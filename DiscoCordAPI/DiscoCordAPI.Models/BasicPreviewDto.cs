@@ -1,6 +1,6 @@
-namespace DiscoCordAPI.Models.Servers
+namespace DiscoCordAPI.Models
 {
-    public class ServerForUserListDto
+    public class BasicPreviewDto
     {
         public int Id { get; private set; }
         public string Name { get; set; }
