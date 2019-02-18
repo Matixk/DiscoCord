@@ -20,6 +20,8 @@ namespace DiscoCordAPI.Web.Api.Repositories
             entities = context.Set<T>();
         }
 
+        public DbSet<T> GetDbSet() => entities;
+
         public async Task<List<T>> GetAll() => await entities.ToListAsync();
 
         public async Task<T> Get(int id) => await entities.FirstOrDefaultAsync(e => e.Id == id);

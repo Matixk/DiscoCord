@@ -5,6 +5,7 @@ using AutoMapper;
 using DiscoCordAPI.Models;
 using DiscoCordAPI.Models.Servers;
 using DiscoCordAPI.Models.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoCordAPI.Web.Api.Repositories
 {
@@ -29,7 +30,12 @@ namespace DiscoCordAPI.Web.Api.Repositories
 
         public ServerPreviewDto GetServerDetails(int id)
         {
-            var server = context.Get(id).Result;
+            var server = context.GetDbSet()
+                .Include(s => s.Owner)
+                .Include(s => s.Users)
+                .Include(s => s.Channels)
+                .FirstOrDefaultAsync(s => s.Id == id)
+                .Result;
             
             return mapper.Map<ServerPreviewDto>(server);
         }
