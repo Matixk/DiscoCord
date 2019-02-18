@@ -3,8 +3,9 @@
 set -e
 run_cmd="dotnet run --server.urls http://*:80"
 
+cd DiscoCordAPI.Web.Api
 until dotnet ef database update; do
->&2 echo "SQL Server is starting up"
+>&2 echo "SQL Server connecting..."
 sleep 1
 done
 
