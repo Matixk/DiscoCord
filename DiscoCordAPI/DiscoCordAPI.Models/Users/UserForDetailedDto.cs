@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using DiscoCordAPI.Models.Servers;
 
 namespace DiscoCordAPI.Models.Users
 {
-    public class UserForDetailedDto
+    public class UserForDetailedDto : BasicPreviewDto
     {
-        public int Id { get; private set; }
-        public string Name { get; set; }
-        public virtual List<ServerForUserListDto> OwnedServers { get; set; } = new List<ServerForUserListDto>();
-        public virtual List<ServerForUserListDto> ConnectedServers { get; set; } = new List<ServerForUserListDto>();
+        public virtual List<BasicPreviewDto> OwnedServers { get; set; } = new List<BasicPreviewDto>();
+        public virtual List<BasicPreviewDto> ConnectedServers { get; set; } = new List<BasicPreviewDto>();
     }
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using DiscoCordAPI.Models;
 using DiscoCordAPI.Models.Servers;
 using DiscoCordAPI.Models.Users;
 
@@ -9,7 +10,8 @@ namespace DiscoCordAPI.Web.Api.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<User, UserForDetailedDto>();
-            CreateMap<Server, ServerForUserListDto>();
+            CreateMap<Server, BasicPreviewDto>();
+            CreateMap<Server, ServerPreviewDto>();
         }
     }
 }
