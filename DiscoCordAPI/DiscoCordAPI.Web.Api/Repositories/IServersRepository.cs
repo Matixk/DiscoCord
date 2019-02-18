@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DiscoCordAPI.Models;
 using DiscoCordAPI.Models.Servers;
-using DiscoCordAPI.Models.Servers.Dto;
 using DiscoCordAPI.Models.Users;
 
 namespace DiscoCordAPI.Web.Api.Repositories
