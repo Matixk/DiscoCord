@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-run_cmd="dotnet watch run --no-restore --urls https://0.0.0.0:5000"
+run_cmd="dotnet watch run --urls http://0.0.0.0:80"
 
 cd DiscoCordAPI.Web.Api
 until dotnet ef database update; do
