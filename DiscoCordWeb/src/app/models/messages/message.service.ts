@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
@@ -15,6 +15,25 @@ export class MessageService {
 
   getMessages(): Observable<IMessage[]> {
     return this.http.get<IMessage[]>(this.messagesUrl).pipe(
-      tap(data)), catchError(this.handleError);
+      tap(data => console.log(`All: ${JSON.stringify(data)}`)),
+      catchError(this.handleError)
+    );
+  }
+
+  getMessage(id: number): Observable<IMessage | undefined> {
+    return this.getMessages().pipe(
+      map((messages: IMessage[]) => messages.find(m => m.id === id))
+    );
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      errorMessage = `Server returned code: {err.status}, error message is: ${err.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(errorMessage);
   }
 }
