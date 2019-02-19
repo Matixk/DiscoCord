@@ -8,6 +8,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
 {
     public interface IServersRepository
     {
+        Task<Server> GetServer(int id);
         IEnumerable<BasicPreviewDto> GetPublicServers();
         ServerPreviewDto GetServerDetails(int id);
         void Insert(ServerForCreateDto server, Task<User> get);
