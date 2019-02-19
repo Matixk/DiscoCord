@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using AutoMapper;
+using DiscoCordAPI.Models.Channels;
 using DiscoCordAPI.Models.Context;
 using DiscoCordAPI.Models.Servers;
 using DiscoCordAPI.Web.Api.Repositories;
@@ -38,6 +39,7 @@ namespace DiscoCordAPI.Web.Api
             services.AddScoped<IMessagesRepository, MessagesRepository>();
             services.AddScoped<IRepository<Server>, Repository<Server>>();
             services.AddScoped<IServersRepository, ServerRepository>();
+            services.AddScoped<IRepository<Channel>, Repository<Channel>>();
             services.AddScoped<IChannelsRepository, ChannelsRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
