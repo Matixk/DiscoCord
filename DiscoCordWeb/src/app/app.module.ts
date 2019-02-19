@@ -5,10 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './layout/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ChannelComponent } from './components/channel/channel.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChannelComponent,
   ],
   imports: [
     BrowserModule,
