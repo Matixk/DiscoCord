@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using DiscoCordAPI.Models;
 using DiscoCordAPI.Models.Channels;
+using DiscoCordAPI.Models.Servers;
 
 namespace DiscoCordAPI.Web.Api.Repositories
 {
@@ -17,7 +19,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
             this.mapper = mapper;
         }
 
-        public IEnumerable<BasicPreviewDto> GetServerChannels(int id)
+        public IEnumerable<BasicPreviewDto> GetChannelMessages(int id)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +29,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
             throw new NotImplementedException();
         }
 
-        public void Insert(ChannelForCreateDto channel)
+        public void Insert(ChannelForCreateDto channel, Server server)
         {
             throw new NotImplementedException();
         }
