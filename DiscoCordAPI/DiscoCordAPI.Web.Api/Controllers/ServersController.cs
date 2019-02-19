@@ -32,6 +32,13 @@ namespace DiscoCordAPI.Web.Api.Controllers
             return Ok(servers.GetServerDetails(id));
         }
 
+        [HttpGet("{id}/channels")]
+        public async Task<IActionResult> GetServerChannels(int id)
+        {
+            //TODO do caller have permission
+            return Ok(servers.GetServerChannels(id));
+        }
+
         // PUT: api/Servers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutServer(int id, ServerForUpdateDto server)

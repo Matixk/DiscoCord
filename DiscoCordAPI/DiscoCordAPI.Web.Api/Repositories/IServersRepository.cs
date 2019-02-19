@@ -11,6 +11,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
         Task<Server> GetServer(int id);
         IEnumerable<BasicPreviewDto> GetPublicServers();
         ServerPreviewDto GetServerDetails(int id);
+        IEnumerable<BasicPreviewDto> GetServerChannels(int id);
         void Insert(ServerForCreateDto server, Task<User> get);
         void Update(int id, ServerForUpdateDto server);
         void Delete(int id);

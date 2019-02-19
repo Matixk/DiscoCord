@@ -42,6 +42,17 @@ namespace DiscoCordAPI.Web.Api.Repositories
             return mapper.Map<ServerPreviewDto>(server);
         }
 
+        public IEnumerable<BasicPreviewDto> GetServerChannels(int id)
+        {
+            var channels = context.GetDbSet()
+                .Include(s => s.Channels)
+                .FirstOrDefaultAsync(s => s.Id == id)
+                .Result
+                .Channels;
+
+            return mapper.Map<IEnumerable<BasicPreviewDto>>(channels);
+        }
+
         public void Insert(ServerForCreateDto server, Task<User> user)
         {
             var serverToCreate = new Server(
