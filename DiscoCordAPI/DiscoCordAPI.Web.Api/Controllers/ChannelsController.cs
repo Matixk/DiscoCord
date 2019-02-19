@@ -26,7 +26,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
         public async Task<ActionResult<Channel>> GetChannelDetails(int id) => Ok(channels.GetChannelDetails(id));
 
         // GET: api/Channels/5/messages
-        [HttpGet("{id}")]
+        [HttpGet("{id}/messages")]
         public async Task<ActionResult<Channel>> GetChannelMessages(int id) => Ok(channels.GetChannelMessages(id));
 
         // PUT: api/Channels/5
