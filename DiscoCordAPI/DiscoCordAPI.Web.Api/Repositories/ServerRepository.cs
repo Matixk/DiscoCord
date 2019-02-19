@@ -20,7 +20,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
             this.mapper = mapper;
         }
 
-        public Server GetServer(int id) => context.Get(id).Result;
+        public async Task<Server> GetServer(int id) => await context.Get(id);
 
         public IEnumerable<BasicPreviewDto> GetPublicServers()
         {

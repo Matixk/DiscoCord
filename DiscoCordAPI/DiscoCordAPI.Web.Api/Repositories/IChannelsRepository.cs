@@ -10,7 +10,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
     {
         IEnumerable<BasicPreviewDto> GetChannelMessages(int id);
         ChannelPreviewDto GetChannelDetails(int id);
-        void Insert(ChannelForCreateDto channel, Server server);
+        void Insert(ChannelForCreateDto channel, Task<Server> server);
         void Update(int id, ChannelForUpdateDto channel);
         void Delete(int id);
     }

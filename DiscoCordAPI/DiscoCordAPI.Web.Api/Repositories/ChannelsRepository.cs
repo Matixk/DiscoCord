@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using DiscoCordAPI.Models;
 using DiscoCordAPI.Models.Channels;
@@ -39,9 +40,9 @@ namespace DiscoCordAPI.Web.Api.Repositories
             return mapper.Map<ChannelPreviewDto>(channel);
         }
 
-        public void Insert(ChannelForCreateDto channel, Server server)
+        public void Insert(ChannelForCreateDto channel, Task<Server> server)
         {
-            var channelToCreate = new Channel(server, channel.Name);
+            var channelToCreate = new Channel(server.Result, channel.Name);
 
             context.Insert(channelToCreate);
         }
