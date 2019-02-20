@@ -6,6 +6,7 @@
 
 <form class="message-form">
   <mat-form-field class="message-full-width">
-    <input matInput placeholder="Type a message">
+    <input matInput placeholder="Type a message" (ngModel)="newMessageContent">
+    <mat-icon matSuffix (click)="onSendClicked()">send</mat-icon>
   </mat-form-field>
 </form>
