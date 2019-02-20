@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using DiscoCordAPI.Models.Exceptions;
 using DiscoCordAPI.Models.Servers;
 using DiscoCordAPI.Web.Api.Repositories;
+using Microsoft.AspNetCore.Cors;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class ServersController : ControllerBase
     {
         private readonly IServersRepository servers;

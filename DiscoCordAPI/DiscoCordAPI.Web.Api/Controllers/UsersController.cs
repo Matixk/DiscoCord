@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DiscoCordAPI.Models.Users;
 using DiscoCordAPI.Web.Api.Repositories;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class UsersController : ControllerBase
     {
         private readonly IMapper mapper;
