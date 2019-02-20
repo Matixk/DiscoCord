@@ -24,7 +24,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
         }
 
         // GET: api/Messages
-        [HttpGet]
+        [HttpGet("channel/{id}")]
         public async Task<ActionResult<IEnumerable<Message>>> GetMessagesForChannel(int id)
         {
             var messages = await repo.GetMessagesForChannel(id);
