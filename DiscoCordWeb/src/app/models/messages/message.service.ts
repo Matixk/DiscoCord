@@ -13,16 +13,17 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  getMessages(): Observable<IMessage[]> {
-    return this.http.get<IMessage[]>(this.messagesUrl).pipe(
+  getMessages(id: number): Observable<IMessage[]> {
+    return this.http.get<IMessage[]>(`${this.messagesUrl}/channel/${id}`).pipe(
       tap(data => console.log(`All: ${JSON.stringify(data)}`)),
       catchError(this.handleError)
     );
   }
 
   getMessage(id: number): Observable<IMessage | undefined> {
-    return this.getMessages().pipe(
-      map((messages: IMessage[]) => messages.find(m => m.id === id))
+    return this.http.get<IMessage>(`${this.messagesUrl}/${id}`).pipe(
+      tap(data => console.log(`All: ${JSON.stringify(data)}`)),
+      catchError(this.handleError)
     );
   }
 
