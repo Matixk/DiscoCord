@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 // Components
 import { AppComponent } from './layout/app.component';
 import { ChannelComponent } from './components/channel/channel.component';
+import { MessagesComponent } from './components/message/messages.component';
 
 // Material design
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +18,7 @@ import { MatListModule } from '@angular/material/list';
   declarations: [
     AppComponent,
     ChannelComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

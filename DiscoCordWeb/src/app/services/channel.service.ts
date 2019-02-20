@@ -14,6 +14,6 @@ export class ChannelService {
     getServerChannels(id: number): Observable<Basic[]> {
         const headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json; charset=utf-8');
-        return this.client.get<Basic[]>(this.adress + '/servers/' + 2 + '/channels', { headers: headers });
+        return this.client.get<Basic[]>(this.adress + '/servers/' + id + '/channels', { headers: headers });
    }
 }
