@@ -1,3 +1,5 @@
-<p>
-  messages works!
-</p>
+<mat-list *ngIf="messages">
+  <mat-list-item *ngFor="let message of messages">
+    <span class="message-author">{{ message.Author }}: {{ message.Content }}</span>
+  </mat-list-item>
+</mat-list>
