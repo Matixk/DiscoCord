@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using DiscoCordAPI.Models.Channels;
 using DiscoCordAPI.Models.Exceptions;
 using DiscoCordAPI.Web.Api.Repositories;
+using Microsoft.AspNetCore.Cors;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class ChannelsController : ControllerBase
     {
         private readonly IChannelsRepository channels;

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DiscoCordAPI.Models.Users;
 using DiscoCordAPI.Web.Api.Repositories;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration config;
