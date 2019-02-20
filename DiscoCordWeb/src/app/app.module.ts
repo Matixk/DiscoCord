@@ -1,11 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './layout/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { HttpClientModule } from '@angular/common/http';
+
+// Components
+import { AppComponent } from './layout/app.component';
 import { ChannelComponent } from './components/channel/channel.component';
+
+// Material design
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -15,8 +21,11 @@ import { ChannelComponent } from './components/channel/channel.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    MatGridListModule
+    MatIconModule,
+    MatToolbarModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
