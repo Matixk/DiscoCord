@@ -27,6 +27,13 @@ export class MessageService {
     );
   }
 
+  sendMessage(channelId: number, messageContent: string): void {
+    let data: FormData = new FormData();
+    data.append("Content", messageContent);
+    data.append("channelId", channelId.toString());
+    this.http.post(this.messagesUrl, data);
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
     if (err.error instanceof ErrorEvent) {
