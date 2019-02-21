@@ -8,6 +8,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .newBasicDataForm {
+    visibility: hidden;
     position: absolute;
     margin: 10px;
     background: black;
