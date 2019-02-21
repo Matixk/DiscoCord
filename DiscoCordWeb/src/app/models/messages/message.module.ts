@@ -10,8 +10,9 @@ import { MessagesComponent } from "./messages.component";
   imports: [
     CommonModule,
     RouterModule.forChild([
+      { path: "messages/channel/:id", component: MessagesComponent },
       { path: "messages/:id", component: MessagesComponent }
-      ])
+    ])
   ]
 })
 export class MessageModule { }
