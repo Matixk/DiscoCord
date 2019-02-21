@@ -55,7 +55,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
         public async void SendMessage(MessageForCreateDto message, Task<User> user)
         {
             var messageToCreate = new Message(
-                message.ChannelId,
+                context.Channels.FirstOrDefaultAsync(c => c.Id == message.ChannelId).Result,
                 user.Result,
                 message.Content
                 );

@@ -1,4 +1,6 @@
-﻿namespace DiscoCordAPI.Models.Messages
+using System;
+
+namespace DiscoCordAPI.Models.Messages
 {
     public class MessageDto
     {
