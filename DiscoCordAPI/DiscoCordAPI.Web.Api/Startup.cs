@@ -54,6 +54,15 @@ namespace DiscoCordAPI.Web.Api
                         ValidateAudience = false
                     };
                 });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -61,6 +70,8 @@ namespace DiscoCordAPI.Web.Api
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseMvc();
+
+            app.UseCors("AllowSpecificOrigin");
         }
     }
 }

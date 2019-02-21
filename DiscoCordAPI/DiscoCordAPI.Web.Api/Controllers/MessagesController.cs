@@ -5,11 +5,13 @@ using DiscoCordAPI.Web.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class MessagesController : ControllerBase
     {
         private readonly IMapper mapper;
