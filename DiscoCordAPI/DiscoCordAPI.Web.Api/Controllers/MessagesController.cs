@@ -14,11 +14,13 @@ namespace DiscoCordAPI.Web.Api.Controllers
     {
         private readonly IMapper mapper;
         private readonly IMessagesRepository repo;
+        private readonly IUsersRepository users;
 
-        public MessagesController(IMapper autoMapper, IMessagesRepository repository)
+        public MessagesController(IMapper autoMapper, IMessagesRepository repository, IUsersRepository usersRepo)
         {
             mapper = autoMapper;
             repo = repository;
+            users = usersRepo;
         }
 
         // GET: api/Messages
@@ -52,9 +54,9 @@ namespace DiscoCordAPI.Web.Api.Controllers
 
         // POST: api/Messages
         [HttpPost]
-        public async Task<ActionResult<Message>> PostMessage(Message message)
+        public async Task<ActionResult<Message>> PostMessage(MessageForCreateDto message)
         {
-            repo.SendMessage(message);
+            repo.SendMessage(message, users.GetUser(message.AuthorId));
             return Ok("Sent");
         }
 
