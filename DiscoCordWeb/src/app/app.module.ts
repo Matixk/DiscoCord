@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './layout/app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { ServersModule } from './models/servers/servers.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,8 +13,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatGridListModule
+    ServersModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
