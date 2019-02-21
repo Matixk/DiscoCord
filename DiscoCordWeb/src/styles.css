@@ -2,3 +2,13 @@
 @import "~@angular/material/prebuilt-themes/purple-green.css";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.newBasicDataForm {
+    position: absolute;
+    margin: 10px;
+    background: black;
+}

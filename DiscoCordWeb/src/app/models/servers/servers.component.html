@@ -1,6 +1,21 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span><h2>Servers</h2></span>
+    <span class="toolbar-spacer"></span>
+    <mat-icon class="toolbar-icon" (click)="changeFormVisible()">add</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="newBasicDataForm" [style.visibility]="formVisible">
+    <label>name:
+      <input [(ngModel)]="newServerName" placeholder="name">
+    </label>
+</div>
+
 <mat-list *ngIf="servers">
   <mat-list-item *ngFor="let server of servers">
-    <a [routerLink]="/server/{{ server.id }}"><span class="message-author">{{ server.Name }}</span></a>
+    <a [routerLink]="['server', 'server.id']"><span class="message-author">{{ server.Name }}</span></a>
   </mat-list-item>
 </mat-list>
+
 <router-outlet></router-outlet>

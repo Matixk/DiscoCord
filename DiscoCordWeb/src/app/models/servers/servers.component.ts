@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IServer } from "./server";
 import { ServersService } from './servers.service';
 import { ActivatedRoute } from '@angular/router';
 import { Basic } from '../Basic';
@@ -7,23 +6,27 @@ import { Basic } from '../Basic';
 @Component({
   selector: 'app-servers',
   templateUrl: './servers.component.html',
-  styleUrls: ['./servers.component.css']
 })
 export class ServersComponent implements OnInit {
   errorMessage: string;
   servers: Basic[];
   id: number;
+  visible: boolean;
+  formVisible: string;
 
   _newServerName: string;
   set newServerName(value: string) {
     this._newServerName = value;
+  }
+  get newServerName() {
+    return this._newServerName;
   }
 
   constructor(private readonly serversService: ServersService,
     private readonly route: ActivatedRoute) { }
 
   ngOnInit() {
-    const param = this.route.snapshot.paramMap.get("id");
+    const param = parseInt(this.route.snapshot.paramMap.get("id"));
     if (param) {
       this.id = +param;
       this.getServer(this.id);
@@ -44,6 +47,16 @@ export class ServersComponent implements OnInit {
       servers => this.servers = servers,
       error => this.errorMessage = error
     )
+  }
+
+  changeFormVisible() {
+    this.visible = !this.visible;
+
+    if (this.visible) {
+      this.formVisible = "visible";
+    } else {
+        this.formVisible = "hidden";
+    }
   }
 
 }
