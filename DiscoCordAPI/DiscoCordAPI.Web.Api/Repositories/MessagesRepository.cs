@@ -52,9 +52,15 @@ namespace DiscoCordAPI.Web.Api.Repositories
             return await context.Messages.AnyAsync(msg => msg.Id == id);
         }
 
-        public async void SendMessage(Message message)
+        public async void SendMessage(MessageForCreateDto message, Task<User> user)
         {
-            await context.Messages.AddAsync(message);
+            var messageToCreate = new Message(
+                message.ChannelId,
+                user.Result,
+                message.Content
+                );
+
+            await context.Messages.AddAsync(messageToCreate);
             await context.SaveChangesAsync();
         }
 
