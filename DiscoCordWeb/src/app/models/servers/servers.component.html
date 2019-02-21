@@ -1,3 +1,6 @@
-<p>
-  servers works!
-</p>
+<mat-list *ngIf="servers">
+  <mat-list-item *ngFor="let server of servers">
+    <a [routerLink]="/server/{{ server.id }}"><span class="message-author">{{ server.Name }}</span></a>
+  </mat-list-item>
+</mat-list>
+<router-outlet></router-outlet>
