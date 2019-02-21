@@ -14,7 +14,7 @@
 
 <mat-list *ngIf="servers">
   <mat-list-item *ngFor="let server of servers">
-    <a [routerLink]="['server', 'server.id']"><span class="message-author">{{ server.Name }}</span></a>
+    <a [routerLink]="['channels', server.id]"><span class="message-author">{{ server.name }}</span></a>
   </mat-list-item>
 </mat-list>
 
