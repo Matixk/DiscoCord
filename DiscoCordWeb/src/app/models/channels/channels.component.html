@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span><h2>Channels</h2></span>
+    <span class="toolbar-spacer"></span>
+    <mat-icon class="toolbar-icon" (click)="changeFormVisible()">add</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+  
+<div class="newBasicDataForm" [style.visibility]="formVisible">
+  <label>name:
+    <input [(ngModel)]="newServerName" placeholder="name">
+  </label>
+</div>
+
+<mat-list>
+    <mat-list-item *ngFor="let channel of channels">
+    <span class="channel-name">{{channel.name}}</span>
+    <span class="toolbar-spacer"></span>
+    <mat-icon class="toolbar-icon">edit</mat-icon>
+    <mat-icon class="toolbar-icon">delete</mat-icon>
+  </mat-list-item>
+</mat-list>

@@ -9,7 +9,7 @@ import { IServer } from './server';
   providedIn: 'root'
 })
 export class ServersService {
-  private serversUrl = "http://localhost:54405/api/Servers"
+  private serversUrl = "http://localhost:5000/api/Servers"
 
   constructor(private http: HttpClient) { }
 

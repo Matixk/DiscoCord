@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     exports: [
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
         MatListModule,
         BrowserAnimationsModule,
         FormsModule,
+        HttpClientModule,
     ]
 })
 export class SharedModule { }

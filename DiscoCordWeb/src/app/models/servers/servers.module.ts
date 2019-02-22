@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ServersComponent } from './servers.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
+import { ChannelsModule } from '../channels/channel.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
       { path: 'servers/:id', pathMatch: 'full', component: ServersComponent }
     ]),
     SharedModule,
-    HttpClientModule
+    ChannelsModule,
   ],
   exports: [ ServersComponent ]
 })
