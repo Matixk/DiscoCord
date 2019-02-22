@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using DiscoCordAPI.Models;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DiscoCordAPI.Models.Channels;
 using DiscoCordAPI.Models.Exceptions;
 using DiscoCordAPI.Web.Api.Repositories;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
@@ -15,21 +14,39 @@ namespace DiscoCordAPI.Web.Api.Controllers
     public class ChannelsController : ControllerBase
     {
         private readonly IChannelsRepository channels;
-        private readonly IServersRepository servers;
 
-        public ChannelsController(IChannelsRepository channels, IServersRepository servers)
+        public ChannelsController(IChannelsRepository channels)
         {
             this.channels = channels;
-            this.servers = servers;
         }
 
         // GET: api/Channels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Channel>> GetChannelDetails(int id) => Ok(channels.GetChannelDetails(id));
+        public async Task<ActionResult<ChannelPreviewDto>> GetChannel(int id)
+        {
+            var channel = await channels.GetChannelDetails(id);
+
+            if (channel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(channel);
+        }
 
         // GET: api/Channels/5/messages
         [HttpGet("{id}/messages")]
-        public async Task<ActionResult<Channel>> GetChannelMessages(int id) => Ok(channels.GetChannelMessages(id));
+        public async Task<ActionResult<Channel>> GetServerChannels(int id)
+        {
+            var serverChannels = await channels.GetServerChannels(id);
+
+            if (serverChannels == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(serverChannels);
+        }
 
         // PUT: api/Channels/5
         [HttpPut("{id}")]
@@ -38,26 +55,30 @@ namespace DiscoCordAPI.Web.Api.Controllers
             //TODO do caller have permission
             try
             {
-                channels.Update(id, channel);
-                return Ok(new BasicPreviewDto(id, channel.Name));
+                await channels.Update(id, channel);
             }
-            catch (ArgumentException)
+            catch (DbUpdateConcurrencyException)
             {
-                return BadRequest();
+                if (!ChannelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
+
+            return NoContent();
         }
 
         // POST: api/Channels
         [HttpPost]
         public async Task<ActionResult<Channel>> PostChannel(ChannelForCreateDto channel)
         {
-            channels.Insert(channel, servers.GetServer(channel.ServerId));
+            var channelCreated = await channels.Insert(channel);
 
-            return Ok();
+            return CreatedAtAction("GetChannel", new { id = channelCreated.Id }, channelCreated);
         }
 
         // DELETE: api/Channels/5
@@ -67,13 +88,18 @@ namespace DiscoCordAPI.Web.Api.Controllers
             //TODO do caller have permission
             try
             {
-                channels.Delete(id);
+                await channels.Delete(id);
                 return Ok();
             }
             catch (NotFoundException)
             {
                 return NotFound();
             }
+        }
+
+        private bool ChannelExists(int id)
+        {
+            return channels.ChannelExists(id);
         }
 
     }

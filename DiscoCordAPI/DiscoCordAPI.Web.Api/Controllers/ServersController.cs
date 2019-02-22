@@ -1,10 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DiscoCordAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using DiscoCordAPI.Models.Exceptions;
 using DiscoCordAPI.Models.Servers;
 using DiscoCordAPI.Web.Api.Repositories;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoCordAPI.Web.Api.Controllers
 {
@@ -14,24 +16,39 @@ namespace DiscoCordAPI.Web.Api.Controllers
     public class ServersController : ControllerBase
     {
         private readonly IServersRepository servers;
-        private readonly IUsersRepository users;
 
-        public ServersController(IServersRepository servers, IUsersRepository users)
+        public ServersController(IServersRepository servers)
         {
             this.servers = servers;
-            this.users = users;
         }
 
         // GET: api/Servers
         [HttpGet]
-        public async Task<IActionResult> GetPublicServers() => Ok(servers.GetPublicServers());
+        public async Task<ActionResult<IEnumerable<BasicPreviewDto>>> GetPublicServers()
+        {
+            var publicServers = await servers.GetPublicServers();
+
+            if (publicServers == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(publicServers);
+        }
 
         // GET: api/Servers/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetServer(int id)
+        public async Task<ActionResult<ServerPreviewDto>> GetServer(int id)
         {
             //TODO do caller have permission
-            return Ok(servers.GetServerDetails(id));
+            var server = await servers.GetServerDetails(id);
+
+            if (server == null)
+            {
+                return NotFound();
+            }
+
+            return server;
         }
 
         // PUT: api/Servers/5
@@ -41,26 +58,30 @@ namespace DiscoCordAPI.Web.Api.Controllers
             //TODO do caller have permission
             try
             {
-                servers.Update(id, server);
-                return Ok();
+                await servers.Update(id, server);
             }
-            catch (ArgumentException)
+            catch (DbUpdateConcurrencyException)
             {
-                return BadRequest();
+                if (!ServerExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
+
+            return NoContent();
         }
 
         // POST: api/Servers
         [HttpPost]
         public async Task<IActionResult> PostServer(ServerForCreateDto server)
         {
-            servers.Insert(server, users.GetUser(server.OwnerId));
-
-            return Ok();
+            var serverCreated = await servers.Insert(server);
+            
+            return CreatedAtAction("GetServer", new { id = serverCreated.Id }, serverCreated);
         }
 
         // DELETE: api/Servers/5
@@ -70,13 +91,17 @@ namespace DiscoCordAPI.Web.Api.Controllers
             //TODO do caller have permission
             try
             {
-                servers.Delete(id);
-                return Ok();
+                return await servers.Delete(id);
             }
             catch (NotFoundException)
             {
                 return NotFound();
             }
+        }
+
+        private bool ServerExists(int id)
+        {
+            return servers.ServerExists(id);
         }
 
     }
