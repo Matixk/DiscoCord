@@ -3,8 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DiscoCordAPI.Models;
+using DiscoCordAPI.Models.Context;
+using DiscoCordAPI.Models.Exceptions;
 using DiscoCordAPI.Models.Servers;
-using DiscoCordAPI.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiscoCordAPI.Web.Api.Repositories
@@ -12,59 +13,103 @@ namespace DiscoCordAPI.Web.Api.Repositories
     public class ServerRepository : IServersRepository
     {
         private readonly IMapper mapper;
-        private readonly IRepository<Server> context;
+        private readonly ApplicationContext context;
 
-        public ServerRepository(IRepository<Server> context, IMapper mapper)
+        public ServerRepository(ApplicationContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
-        public async Task<Server> GetServer(int id) => await context.Get(id);
-
-        public IEnumerable<BasicPreviewDto> GetPublicServers()
+        public async Task<Server> GetServer(int id)
         {
-            var servers = context.GetAll().Result;
+            return await context
+                .Servers
+                .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<IEnumerable<BasicPreviewDto>> GetPublicServers()
+        {
+            var publicServers = await context
+                .Servers
+                .Where(s => s.IsPrivate)
+                .ToListAsync();
         
-            var publicServers = servers.Where(s => s.IsPrivate == false);
             return mapper.Map<IEnumerable<BasicPreviewDto>>(publicServers);
         }
 
-        public ServerPreviewDto GetServerDetails(int id)
+        public async Task<ServerPreviewDto> GetServerDetails(int id)
         {
-            var server = context.GetDbSet()
+            var server = await context
+                .Servers
                 .Include(s => s.Owner)
                 .Include(s => s.Users)
                 .Include(s => s.Channels)
-                .FirstOrDefaultAsync(s => s.Id == id)
-                .Result;
+                .FirstOrDefaultAsync(s => s.Id == id);
             
             return mapper.Map<ServerPreviewDto>(server);
         }
 
-        public void Insert(ServerForCreateDto server, Task<User> user)
+        public async Task<Server> Insert(ServerForCreateDto server)
         {
+            var user = await context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == server.OwnerId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found!");
+            }
+
             var serverToCreate = new Server(
                 server.Name,
-                user.Result,
+                user,
                 server.IsPrivate);
 
-            context.Insert(serverToCreate);
+            context.Servers.Add(serverToCreate);
+            await context.SaveChangesAsync();
+
+            return serverToCreate;
         }
 
-        public void Update(int id, ServerForUpdateDto server)
+        public async Task Update(int id, ServerForUpdateDto server)
         {
-            var serverToUpdate = context.Get(id).Result;
+            var serverEntity = await context
+                .Servers
+                .FirstOrDefaultAsync(s => s.Id == id);
 
-            serverToUpdate.Name = server.Name;
-            serverToUpdate.IsPrivate = server.IsPrivate;
-            
-            context.Update(id, serverToUpdate);
+            if (server == null)
+            {
+                throw new NotFoundException();
+            }
+
+            serverEntity.Name = server.Name;
+            serverEntity.IsPrivate = server.IsPrivate;
+
+            context.Entry(serverEntity).State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task<Server> Delete(int id)
         {
-            context.Delete(id);
+            var server = await context
+                .Servers
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (server == null)
+            {
+                throw new NotFoundException();
+            }
+
+            context.Remove(server);
+            await context.SaveChangesAsync();
+
+            return server;
+        }
+
+        public bool ServerExists(int id)
+        {
+            return context.Servers.Any(s => s.Id == id);
         }
     }
 }

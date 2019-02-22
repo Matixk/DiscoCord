@@ -8,10 +8,11 @@ namespace DiscoCordAPI.Web.Api.Repositories
 {
     public interface IChannelsRepository
     {
-        IEnumerable<BasicPreviewDto> GetChannelMessages(int id);
-        ChannelPreviewDto GetChannelDetails(int id);
-        void Insert(ChannelForCreateDto channel, Task<Server> server);
-        void Update(int id, ChannelForUpdateDto channel);
-        void Delete(int id);
+        Task<IEnumerable<BasicPreviewDto>> GetServerChannels(int id);
+        Task<ChannelPreviewDto> GetChannelDetails(int id);
+        Task<Channel> Insert(ChannelForCreateDto channel);
+        Task Update(int id, ChannelForUpdateDto channel);
+        Task<Channel> Delete(int id);
+        bool ChannelExists(int id);
     }
 }
