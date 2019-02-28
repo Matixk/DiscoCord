@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DiscoCordAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using DiscoCordAPI.Models.Channels;
 using DiscoCordAPI.Models.Exceptions;
@@ -20,8 +22,8 @@ namespace DiscoCordAPI.Web.Api.Controllers
             this.channels = channels;
         }
 
-        // GET: api/Channels/5
-        [HttpGet("{id}")]
+        // GET: api/Channels/5/details
+        [HttpGet("{id}/details")]
         public async Task<ActionResult<ChannelPreviewDto>> GetChannel(int id)
         {
             var channel = await channels.GetChannelDetails(id);
@@ -34,9 +36,9 @@ namespace DiscoCordAPI.Web.Api.Controllers
             return Ok(channel);
         }
 
-        // GET: api/Channels/5/messages
-        [HttpGet("{id}/messages")]
-        public async Task<ActionResult<Channel>> GetServerChannels(int id)
+        // GET: api/Channels/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<BasicPreviewDto>>> GetServerChannels(int id)
         {
             var serverChannels = await channels.GetServerChannels(id);
 

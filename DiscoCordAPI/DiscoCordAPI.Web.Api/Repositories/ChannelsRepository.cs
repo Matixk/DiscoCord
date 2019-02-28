@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,9 +25,10 @@ namespace DiscoCordAPI.Web.Api.Repositories
         public async Task<IEnumerable<BasicPreviewDto>> GetServerChannels(int id)
         {
             var channels = await context
-                .Servers
-                .Include(s => s.Channels)
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .Channels
+                .Include(c => c.Server)
+                .Where(c => c.Server.Id == id)
+                .ToListAsync();
 
             return mapper.Map<IEnumerable<BasicPreviewDto>>(channels);
         }
