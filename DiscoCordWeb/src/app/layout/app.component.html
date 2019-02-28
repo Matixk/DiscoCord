@@ -1,1 +1,7 @@
-<router-outlet></router-outlet>
+<!-- Debugging -->
+<input [(ngModel)]="userId" placeholder="userId"> <button [routerLink]="[ { outlets: { servers: [userId] } } ]">Load user servers</button>
+<!-- /Debugging -->
+
+<div class="row">
+    <router-outlet name="servers"></router-outlet>
+</div>

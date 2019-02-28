@@ -1,12 +1,14 @@
-<mat-list *ngIf="messages">
-  <mat-list-item *ngFor="let message of messages">
-    <span class="message-author">{{ message.Author }}: {{ message.Content }}</span>
-  </mat-list-item>
-</mat-list>
+<div class="column">
+  <mat-list *ngIf="messages">
+    <mat-list-item *ngFor="let message of messages">
+      <span class="message-author">{{ message.Author }}: {{ message.Content }}</span>
+    </mat-list-item>
+  </mat-list>
 
-<form class="message-form">
-  <mat-form-field class="message-full-width">
-    <input matInput placeholder="Type a message" (ngModel)="newMessageContent">
-    <mat-icon matSuffix (click)="onSendClicked()">send</mat-icon>
-  </mat-form-field>
-</form>
+  <form class="message-form">
+    <mat-form-field class="message-full-width">
+      <input matInput placeholder="Type a message" (ngModel)="newMessageContent">
+      <mat-icon matSuffix (click)="onSendClicked()">send</mat-icon>
+    </mat-form-field>
+  </form>
+</div>
