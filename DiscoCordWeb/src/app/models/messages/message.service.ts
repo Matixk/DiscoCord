@@ -9,7 +9,7 @@ import { IMessage } from './message'
   providedIn: "root"
 })
 export class MessageService {
-  private messagesUrl = "http://localhost:54405/api/Messages";
+  private messagesUrl = "http://localhost:5000/api/Messages";
 
   constructor(private http: HttpClient) { }
 

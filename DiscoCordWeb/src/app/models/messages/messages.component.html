@@ -1,7 +1,14 @@
 <div class="column">
-  <mat-list *ngIf="messages">
+
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span><h2>Messages</h2></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-list>
     <mat-list-item *ngFor="let message of messages">
-      <span class="message-author">{{ message.Author }}: {{ message.Content }}</span>
+      <span class="message-author">{{ message.author }}: {{ message.content }}</span>
     </mat-list-item>
   </mat-list>
 
