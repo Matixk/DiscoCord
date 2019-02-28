@@ -8,13 +8,13 @@ import { Basic } from '../Basic';
     providedIn: "root"
 })
 export class ChannelsService {
-    private adress = "http://localhost:5000/api";
+    private adress = "http://localhost:5000/api/Channels/";
 
     constructor(private client: HttpClient) { }
 
     getServerChannels(id: number): Observable<Basic[]> {
         const headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json; charset=utf-8');
-        return this.client.get<Basic[]>(this.adress + '/servers/' + id + '/channels', { headers: headers });
+        return this.client.get<Basic[]>(`${this.adress}${id}`, { headers: headers });
    }
 }
