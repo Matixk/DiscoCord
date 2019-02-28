@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
 import { MessagesComponent } from "./messages.component";
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -9,10 +9,8 @@ import { MessagesComponent } from "./messages.component";
     ],
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      { path: "messages/channel/:id", component: MessagesComponent },
-      { path: "messages/:id", component: MessagesComponent }
-    ])
-  ]
+    SharedModule,
+  ],
+  exports: [ MessagesComponent ]
 })
 export class MessageModule { }
