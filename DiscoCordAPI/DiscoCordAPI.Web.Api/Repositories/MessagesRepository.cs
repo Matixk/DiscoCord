@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DiscoCordAPI.Models.Exceptions;
+using System.Diagnostics;
 
 namespace DiscoCordAPI.Web.Api.Repositories
 {
@@ -35,7 +37,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
 
         public async Task<IEnumerable<Message>> GetMessagesForChannel(int id)
         {
-            var allMessages = await context.Messages.ToListAsync();
+            var allMessages = await context.Messages.Include("Channel").ToListAsync();
             var messages = new List<Message>();
             foreach (var msg in allMessages)
             {
@@ -52,15 +54,31 @@ namespace DiscoCordAPI.Web.Api.Repositories
             return await context.Messages.AnyAsync(msg => msg.Id == id);
         }
 
-        public async void SendMessage(MessageForCreateDto message, Task<User> user)
+        public async Task SendMessage(MessageForCreateDto message)
         {
+            var user = await context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == message.AuthorId);
+            var channel = await context
+                .Channels
+                .FirstOrDefaultAsync(c => c.Id == message.ChannelId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found!");
+            }
+            if (channel == null)
+            {
+                throw new NotFoundException("Channel not found!");
+            }
+
             var messageToCreate = new Message(
-                context.Channels.FirstOrDefaultAsync(c => c.Id == message.ChannelId).Result,
-                user.Result,
+                channel,
+                user,
                 message.Content
                 );
 
-            await context.Messages.AddAsync(messageToCreate);
+            context.Messages.Add(messageToCreate);
             await context.SaveChangesAsync();
         }
 

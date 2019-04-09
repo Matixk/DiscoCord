@@ -9,7 +9,7 @@ namespace DiscoCordAPI.Web.Api.Repositories
     {
         Task<Message> GetMessageById(int id);
         Task<IEnumerable<Message>> GetMessagesForChannel(int id);
-        void SendMessage(MessageForCreateDto message, Task<User> user);
+        Task SendMessage(MessageForCreateDto message);
         void UpdateMessage(User user,int id, string content);
         void DeleteMessage(User user,int id);
         Task<bool> MessageExists(int id);

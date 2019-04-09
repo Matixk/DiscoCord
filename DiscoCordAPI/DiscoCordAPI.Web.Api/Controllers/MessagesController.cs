@@ -58,7 +58,7 @@ namespace DiscoCordAPI.Web.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Message>> PostMessage(MessageForCreateDto message)
         {
-            repo.SendMessage(message, users.GetUser(message.AuthorId));
+            await repo.SendMessage(message);
             return Ok("Sent");
         }
 
