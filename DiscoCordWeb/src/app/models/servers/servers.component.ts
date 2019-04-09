@@ -39,7 +39,7 @@ export class ServersComponent implements OnInit {
     this.serversService.getServer(id).subscribe(
       servers => this.servers[0] = servers,
       error => this.errorMessage = error
-    )
+    );
   }
 
   getServers() {
